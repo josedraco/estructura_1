@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:estructura_1/pantallas/categorias.dart';
 
 void main() => runApp(new MyApp());
 
@@ -28,13 +29,13 @@ class _MyHomePageState extends State<MyHomePage> {
   var selectedPageIndex = 0;
 
   var pages = [
-    UserFeedPage(),
-    SearchPage(),
-    NotificationPage(),
-    MessagesPage(),
+    Categorias(),
+//    SearchPage(),
+//    NotificationPage(),
+//    MessagesPage(),
   ];
 
-  @override
+/*  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: pages[selectedPageIndex],
@@ -62,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
         currentIndex: selectedPageIndex,),
     );
-  }
+  }*/
 }
 
 
