@@ -1,35 +1,17 @@
 // pagina inicial donde se muestran las categorias a escoger
 import 'package:flutter/material.dart';
-import 'package:estructura_1/datos.dart';
 
 class Categorias extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       //title: "Test 4",
         home: new Scaffold(
-            appBar: buildAppBar(),
-            body: buildListView(),
+            //appBar: buildAppBar(),
+            body: buildGridView(),
             bottomNavigationBar: buildBottomNavigationBar()
         )
-    );
-  }
-
-  ListView buildListView() {
-    return ListView.builder(
-      itemBuilder: (context, index) => new LugarSummary(lugares[index]),
-      itemCount: lugares.length,
-    );
-  }
-
-  AppBar buildAppBar() {
-    return new AppBar(
-      title: new Text("Aviles industrial.."),
-      backgroundColor: const Color.fromRGBO(78, 234, 32, 12.0),
-      actions: <Widget>[
-        new IconButton(icon: new Icon(Icons.search), onPressed: null),
-        new IconButton(icon: new Icon(Icons.accessibility), onPressed: null)
-      ],
     );
   }
 
@@ -42,89 +24,88 @@ class Categorias extends StatelessWidget {
     ]);
   }
 
-}
+GestureDetector getStructuredGridCell(name, image) {
+    Color color;
 
+    color = funcioncolor(name);
+    return GestureDetector(
+      onTap: () { print("has pulsado sobre $name");},
+       child: Card(
+        elevation: 1.5,
+        color: color,
+        margin: EdgeInsets.all(20.0),
+        // shape: new Border(
+        //   top: new BorderSide(width: 16.0, color: Colors.yellow),
+        //   bottom: new BorderSide(width: 16.0, color: Colors.lightBlue.shade900),
+        shape: const RoundedRectangleBorder(
+          borderRadius: const BorderRadius.only(
+            topLeft: const Radius.circular(16.0),
+            topRight: const Radius.circular(16.0),
+            bottomLeft: const Radius.circular(16.0),
+            bottomRight: const Radius.circular(16.0),
+          ),
+        ),
 
-class LugarSummary extends StatelessWidget {
-  final Lugar lugar;
-  final bool horizontal;
-
-  LugarSummary(this.lugar, {this.horizontal = true});
-
-  LugarSummary.vertical(this.lugar) : horizontal = false;
-
-
-  Widget buildCard(String name, String imag, String desc){
-    return new Card(
-        color: Colors.yellowAccent,
-        shape: const RoundedRectangleBorder(borderRadius: const BorderRadius.all(const Radius.circular(44.0))),
-        child:  new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
+          verticalDirection: VerticalDirection.down,
           children: <Widget>[
-            //new HomePageBody(),
-            new Container(
-              color: Colors.purple,
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(4.0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  new Text(name,style: new TextStyle(fontSize: 23.0, color: Colors.lightGreen),textAlign: TextAlign.center, ),
-                ],
-              ),
-            ),
-            new Divider(color: Colors.red,),
-            new Container(
-              color: Colors.lightGreen,
-              child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Image.asset(imag),
-                  ]
-
-              ),
-            ),
-            new Container(
-              color: Colors.lightBlue,
-              child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        new IconButton(
-                            icon: new Icon(Icons.speaker), onPressed: null),
-                        new IconButton(
-                            icon: new Icon(Icons.map), onPressed: null),
-                        new IconButton(
-                            icon: new Icon(Icons.favorite), onPressed: null)
-                      ],
-                    ),
-                  ]
-              ),
-            ),
-            new Container(
-                color: Colors.red,
-                padding: EdgeInsets.all(10.0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    new Text(desc, maxLines: 1,overflow: TextOverflow.fade),
-                  ],
-                )
+            new Image(image: new AssetImage('assets/img/iconos/' + image)),
+            new Center(
+              child: new Text(name),
             )
           ],
         )
+      ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  GridView buildGridView(){
 
-    return buildCard(this.lugar.name, this.lugar.image, this.lugar.description);
-
+    return new GridView.count(
+      primary: true,
+      padding: const EdgeInsets.all(1.0),
+      crossAxisCount: 2,
+      childAspectRatio: 0.85,
+      mainAxisSpacing: 1.0,
+      crossAxisSpacing: 1.0,
+      children: <Widget>[
+        getStructuredGridCell("La ciudad", "facebook.png"),
+        getStructuredGridCell("Monumentos", "twitter.png"),
+        getStructuredGridCell("Personajes", "instagram.png"),
+        getStructuredGridCell("Iglesias", "linkedin.png"),
+        getStructuredGridCell("Curiosidades", "google_plus.png"),
+        getStructuredGridCell("Momentos históricos", "Drums.gif"),
+      ],
+    );
   }
+
+  funcioncolor(name){
+
+    Color _color;
+    switch (name) {
+      case 'La ciudad':
+        _color = Colors.deepOrange;
+        break;
+      case 'Monumentos':
+        _color = Colors.grey;
+        break;
+      case 'Personajes':
+        _color = Colors.blue;
+        break;
+      case 'Iglesias':
+        _color = Colors.green;
+        break;
+      case 'Curiosidades':
+        _color = Colors.pink;
+        break;
+      default:
+        _color = Colors.brown;
+        break;
+    }
+
+    return _color;
+  }
+
 }

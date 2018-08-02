@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:estructura_1/pantallas/categorias.dart';
+import 'package:estructura_1/pantallas/listado.dart';
 
 void main() => runApp(new MyApp());
 
@@ -8,16 +9,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Aviles',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(),
+     // home: new MyHomePage(),
       debugShowCheckedModeBanner: false,
+      home: Categorias(),
+      initialRoute: '/categorias',
+      routes: {
+        '/categorias': (context) => Categorias(),
+//        '/favoritos': (context) => Favoritos(),
+//        '/detalle': (context) => Detalle(),
+        '/listado': (context) => Listado(),
+      },
     );
   }
 }
-
+/*
 class MyHomePage extends StatefulWidget {
 
   @override
@@ -33,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //    SearchPage(),
 //    NotificationPage(),
 //    MessagesPage(),
-  ];
+  ];*/
 
 /*  @override
   Widget build(BuildContext context) {
@@ -64,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: selectedPageIndex,),
     );
   }*/
-}
 
 
 
