@@ -1,11 +1,42 @@
 // pagina donde se muestra el listado de elementos
 import 'package:flutter/material.dart';
 import 'package:estructura_1/datos.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Listado extends StatelessWidget {
-
+class Listado extends StatefulWidget {
   final String pulsado;
   Listado(this.pulsado);
+
+  @override
+  _ListadoState createState() => _ListadoState(pulsado);
+}
+
+class _ListadoState extends State<Listado> {
+  final String pulsado;
+  _ListadoState(this.pulsado);
+
+  @override
+  initState() {
+    super.initState();
+    loadFavorites();
+  }
+
+  void loadFavorites() async {
+    int i;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      favoritos = prefs.getStringList("favoritos").toList();
+      for (var l in favoritos)
+      {
+        i = int.parse(l)-1;
+        setState(() => elemento[i].favorito = !elemento[i].favorito);
+      }
+    } catch (e) {
+      //print("entra error");
+      //_favoritos = new Set<String>();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +57,7 @@ class Listado extends StatelessWidget {
     _listElem = elemento.where((Elemento item) => item.categoria == pulsado).toList();
 
     return ListView.builder(
-      itemBuilder: (context, index) => new ElementoSummary(_listElem[index]),
+      itemBuilder: (context, index) => buildCard(_listElem[index].name, _listElem[index].image,_listElem[index].description, index),
       itemCount: _listElem.length,
     );
   }
@@ -52,21 +83,13 @@ class Listado extends StatelessWidget {
     ]);
   }
 
-}
+  Widget buildCard(String name, String imag, String desc, int index){
 
+    int id;
+    id = int.parse(elemento[index].id);
 
-class ElementoSummary extends StatelessWidget {
-  final Elemento elemento;
-  final bool horizontal;
-
-  ElementoSummary(this.elemento, {this.horizontal = true});
-
-  ElementoSummary.vertical(this.elemento) : horizontal = false;
-
-
-  Widget buildCard(String name, String imag, String desc){
     return new Card(
-        color: Colors.yellowAccent,
+      //color: Colors.yellowAccent,
         shape: const RoundedRectangleBorder(borderRadius: const BorderRadius.all(const Radius.circular(44.0))),
         child:  new Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,19 +120,27 @@ class ElementoSummary extends StatelessWidget {
               ),
             ),
             new Container(
-              color: Colors.lightBlue,
+              //color: Colors.lightBlue,
               child: new Column(
                   children: <Widget>[
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        new IconButton(
-                            icon: new Icon(Icons.speaker), onPressed: null),
-                        new IconButton(
-                            icon: new Icon(Icons.map), onPressed: null),
-                        new IconButton(
-                            icon: new Icon(Icons.favorite), onPressed: null)
+              new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    new IconButton(
+                        icon: new Icon(Icons.speaker), onPressed: null),
+                    new IconButton(
+                        icon: new Icon(Icons.map), onPressed: null),
+                    new IconButton(
+                      icon: elemento[id].favorito ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+                      color: elemento[id].favorito ? Colors.red : null,
+                      onPressed: () {setState(() {
+                        elemento[id].favorito = ! elemento[id].favorito;
+                        toggleFavoriteElemento(elemento[id]);
+                        //print(elemento[i].favorito);
+                      });
+                      },
+                      ),
                       ],
                     ),
                   ]
@@ -131,10 +162,21 @@ class ElementoSummary extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
 
-    return buildCard(this.elemento.name, this.elemento.image, this.elemento.situacion);
+}
 
-  }
+
+
+void saveFavorites() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList("favoritos",favoritos);
+}
+
+void toggleFavoriteElemento(Elemento elemento) {
+  if (favoritos.contains(elemento.id))
+    favoritos.remove(elemento.id);
+  else
+    favoritos.add(elemento.id);
+
+  saveFavorites();
 }
