@@ -3,23 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:estructura_1/datos.dart';
 
 class Listado extends StatelessWidget {
+
+  final String pulsado;
+  Listado(this.pulsado);
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       //title: "Test 4",
         home: new Scaffold(
-            appBar: buildAppBar(),
-            body: buildListView(),
+            appBar: buildAppBar(context),
+            body: buildListView(this.pulsado),
             bottomNavigationBar: buildBottomNavigationBar()
         )
     );
   }
 
-  ListView buildListView() {
+  ListView buildListView(String pulsado) {
 
     List<Elemento> _listElem = [];
 
-    _listElem = elemento.where((Elemento item) => item.categoria == "Personajes").toList();
+    _listElem = elemento.where((Elemento item) => item.categoria == pulsado).toList();
 
     return ListView.builder(
       itemBuilder: (context, index) => new ElementoSummary(_listElem[index]),
@@ -27,10 +31,11 @@ class Listado extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(BuildContext context) {
     return new AppBar(
       title: new Text("Aviles"),
       backgroundColor: const Color.fromRGBO(78, 234, 32, 12.0),
+      leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop()),
       actions: <Widget>[
         new IconButton(icon: new Icon(Icons.search), onPressed: null),
         new IconButton(icon: new Icon(Icons.accessibility), onPressed: null)

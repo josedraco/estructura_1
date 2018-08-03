@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         '/categorias': (context) => Categorias(),
 //        '/favoritos': (context) => Favoritos(),
 //        '/detalle': (context) => Detalle(),
-        '/listado': (context) => Listado(),
+        //'/listado': (context) => Listado(),
       },
     );
   }

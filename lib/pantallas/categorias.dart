@@ -1,5 +1,6 @@
 // pagina inicial donde se muestran las categorias a escoger
 import 'package:flutter/material.dart';
+import 'package:estructura_1/pantallas/listado.dart';
 
 class Categorias extends StatelessWidget {
 
@@ -9,7 +10,7 @@ class Categorias extends StatelessWidget {
       //title: "Test 4",
         home: new Scaffold(
             //appBar: buildAppBar(),
-            body: buildGridView(),
+            body: buildGridView(context),
             bottomNavigationBar: buildBottomNavigationBar()
         )
     );
@@ -24,12 +25,16 @@ class Categorias extends StatelessWidget {
     ]);
   }
 
-GestureDetector getStructuredGridCell(name, image) {
+GestureDetector getStructuredGridCell(BuildContext context, name, image) {
     Color color;
 
     color = funcioncolor(name);
     return GestureDetector(
-      onTap: () { print("has pulsado sobre $name");},
+      onTap: () {
+        // /print("has pulsado sobre $name");
+        //Navigator.pushNamed(context, "/listado");
+        Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Listado(name)));
+         },
        child: Card(
         elevation: 1.5,
         color: color,
@@ -61,7 +66,7 @@ GestureDetector getStructuredGridCell(name, image) {
     );
   }
 
-  GridView buildGridView(){
+  GridView buildGridView(BuildContext context){
 
     return new GridView.count(
       primary: true,
@@ -71,12 +76,12 @@ GestureDetector getStructuredGridCell(name, image) {
       mainAxisSpacing: 1.0,
       crossAxisSpacing: 1.0,
       children: <Widget>[
-        getStructuredGridCell("La ciudad", "facebook.png"),
-        getStructuredGridCell("Monumentos", "twitter.png"),
-        getStructuredGridCell("Personajes", "instagram.png"),
-        getStructuredGridCell("Iglesias", "linkedin.png"),
-        getStructuredGridCell("Curiosidades", "google_plus.png"),
-        getStructuredGridCell("Momentos históricos", "Drums.gif"),
+        getStructuredGridCell(context, "La ciudad", "facebook.png"),
+        getStructuredGridCell(context, "Historico", "twitter.png"),
+        getStructuredGridCell(context, "Personajes", "instagram.png"),
+        getStructuredGridCell(context, "Iglesias", "linkedin.png"),
+        getStructuredGridCell(context, "Curiosidades", "google_plus.png"),
+        getStructuredGridCell(context, "Momentos historicos", "Drums.gif"),
       ],
     );
   }
