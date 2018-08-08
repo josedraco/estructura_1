@@ -15,28 +15,7 @@ class _ListadoState extends State<Listado> {
   final String pulsado;
   _ListadoState(this.pulsado);
 
-  @override
-  initState() {
-    super.initState();
-    loadFavorites();
-  }
 
-  void loadFavorites() async {
-    int i;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      favoritos = prefs.getStringList("favoritos").toList();
-      for (var l in favoritos)
-      {
-        i = int.parse(l)-1;
-        setState(() => elemento[i].favorito = !elemento[i].favorito);
-      }
-    } catch (e) {
-      //print("entra error");
-      //_favoritos = new Set<String>();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +36,7 @@ class _ListadoState extends State<Listado> {
     _listElem = elemento.where((Elemento item) => item.categoria == pulsado).toList();
 
     return ListView.builder(
-      itemBuilder: (context, index) => buildCard(_listElem[index].name, _listElem[index].image,_listElem[index].description, index),
+      itemBuilder: (context, index) => buildCard(_listElem[index].name, _listElem[index].image,_listElem[index].description, _listElem[index].id, index),
       itemCount: _listElem.length,
     );
   }
@@ -83,10 +62,10 @@ class _ListadoState extends State<Listado> {
     ]);
   }
 
-  Widget buildCard(String name, String imag, String desc, int index){
+  Widget buildCard(String name, String imag, String desc, String id, int index){
 
-    int id;
-    id = int.parse(elemento[index].id);
+    int idInt;
+    idInt = int.parse(id)-1;
 
     return new Card(
       //color: Colors.yellowAccent,
@@ -132,11 +111,11 @@ class _ListadoState extends State<Listado> {
                     new IconButton(
                         icon: new Icon(Icons.map), onPressed: null),
                     new IconButton(
-                      icon: elemento[id].favorito ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
-                      color: elemento[id].favorito ? Colors.red : null,
+                      icon: elemento[idInt].favorito ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+                      color: elemento[idInt].favorito ? Colors.red : null,
                       onPressed: () {setState(() {
-                        elemento[id].favorito = ! elemento[id].favorito;
-                        toggleFavoriteElemento(elemento[id]);
+                        elemento[idInt].favorito = ! elemento[idInt].favorito;
+                        toggleFavoriteElemento(elemento[idInt]);
                         //print(elemento[i].favorito);
                       });
                       },

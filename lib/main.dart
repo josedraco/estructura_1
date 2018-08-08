@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:estructura_1/pantallas/categorias.dart';
-import 'package:estructura_1/pantallas/listado.dart';
+import 'package:estructura_1/datos.dart';
+//import 'package:estructura_1/pantallas/datos.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -13,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-     // home: new MyHomePage(),
+      // home: new MyHomePage(),
       debugShowCheckedModeBanner: false,
       home: Categorias(),
       initialRoute: '/categorias',
@@ -25,7 +31,35 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+
+
+  @override
+  initState() {
+    super.initState();
+    loadFavorites();
+  }
+
+  void loadFavorites() async {
+    int i;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      favoritos = prefs.getStringList("favoritos").toList();
+      for (var l in favoritos)
+      {
+        i = int.parse(l)-1;
+        setState(() => elemento[i].favorito = !elemento[i].favorito);
+      }
+    } catch (e) {
+      //print("entra error");
+      //_favoritos = new Set<String>();
+    }
+  }
+
 }
+
+
+
 /*
 class MyHomePage extends StatefulWidget {
 
