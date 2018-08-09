@@ -16,8 +16,6 @@ class _ListadoState extends State<Listado> {
   final String pulsado;
   _ListadoState(this.pulsado);
 
-
-
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -55,12 +53,23 @@ class _ListadoState extends State<Listado> {
   }
 
   BottomNavigationBar buildBottomNavigationBar() {
-    return new BottomNavigationBar(items: <BottomNavigationBarItem>[
-      new BottomNavigationBarItem(
-          icon: new Icon(Icons.map), title: new Text("map")),
-      new BottomNavigationBarItem(
-          icon: new Icon(Icons.favorite), title: new Text("fav")),
-    ]);
+    int _currentIndex = 0;
+    List<Elemento> _listElem = [];
+
+    _listElem = elemento.where((Elemento item) => item.categoria == pulsado).toList();
+
+    return new BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+            new BottomNavigationBarItem(
+                icon: new Icon(Icons.map), title: new Text("map")),
+            new BottomNavigationBarItem(
+                icon: new Icon(Icons.favorite), title: new Text("fav")),
+              ],
+        onTap: (int index) => Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(_listElem))),
+        currentIndex: _currentIndex,
+
+    );
+
   }
 
   Widget buildCard(String name, String imag, String desc, String id, int index){
