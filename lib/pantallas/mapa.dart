@@ -109,17 +109,33 @@ class _GoogleMaps extends State<GoogleMaps> {
     );
     mapOverlayController.mapController.addListener(_onMapChanged);
 
+
+    double colorMarca(String cat){
+      switch (cat){
+        case 'Historico' : return BitmapDescriptor.hueGreen; break;
+        case 'Momentos historicos' : return BitmapDescriptor.hueBlue; break;
+        case 'Personajes' : return BitmapDescriptor.hueRose; break;
+        case 'Curiosidades' : return BitmapDescriptor.hueOrange; break;
+      }
+    }
+
     //TODO Recorre el bucle de elementos
     elemMapa.forEach((loc) {
+      double color;
+
+      color = colorMarca(loc.categoria);
+
       if (loc.latitud == null) return;
 
       mapOverlayController.mapController.addMarker(MarkerOptions(
           zIndex: double.parse(loc.id),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen), //para poner el color a las marcas
+          icon: BitmapDescriptor.defaultMarkerWithHue(color), //para poner el color a las marcas
           position: LatLng((loc.latitud), (loc.longitud)),
           infoWindowText:
           InfoWindowText(loc.name, loc.situacion)));
     });
+
+
 
     mapOverlayController.mapController.onInfoWindowTapped.add((Marker marker) {
       mapOverlayController.overlayController.deactivateOverlay();
