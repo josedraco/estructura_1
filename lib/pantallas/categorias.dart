@@ -1,6 +1,8 @@
 // pagina inicial donde se muestran las categorias a escoger
 import 'package:flutter/material.dart';
 import 'package:estructura_1/pantallas/listado.dart';
+import 'package:estructura_1/pantallas/mapa.dart';
+import 'package:estructura_1/datos.dart';
 
 class Categorias extends StatelessWidget {
 
@@ -11,18 +13,26 @@ class Categorias extends StatelessWidget {
         home: new Scaffold(
             //appBar: buildAppBar(),
             body: buildGridView(context),
-            bottomNavigationBar: buildBottomNavigationBar()
+            bottomNavigationBar: buildBottomNavigationBar(context)
         )
     );
   }
 
-  BottomNavigationBar buildBottomNavigationBar() {
-    return new BottomNavigationBar(items: <BottomNavigationBarItem>[
-      new BottomNavigationBarItem(
-          icon: new Icon(Icons.map), title: new Text("map")),
-      new BottomNavigationBarItem(
-          icon: new Icon(Icons.favorite), title: new Text("fav")),
-    ]);
+  BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
+    int _currentIndex = 0;
+
+
+    return new BottomNavigationBar(
+      items: <BottomNavigationBarItem>[
+        new BottomNavigationBarItem(
+            icon: new Icon(Icons.map), title: new Text("map")),
+        new BottomNavigationBarItem(
+            icon: new Icon(Icons.favorite), title: new Text("fav")),
+      ],
+      onTap: (int index) => Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(elemento))),
+      currentIndex: _currentIndex,
+
+    );
   }
 
 GestureDetector getStructuredGridCell(BuildContext context, name, image) {
