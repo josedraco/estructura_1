@@ -3,8 +3,12 @@ import 'package:estructura_1/pantallas/categorias.dart';
 import 'package:estructura_1/datos.dart';
 //import 'package:estructura_1/pantallas/datos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  GoogleMapController.init();
+  runApp(new MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override

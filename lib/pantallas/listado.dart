@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:estructura_1/datos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:estructura_1/pantallas/mapa.dart';
 
 class Listado extends StatefulWidget {
   final String pulsado;
@@ -64,8 +65,13 @@ class _ListadoState extends State<Listado> {
 
   Widget buildCard(String name, String imag, String desc, String id, int index){
 
+    List<Elemento> listElem = [];
+
     int idInt;
     idInt = int.parse(id)-1;
+
+ //   if (! listElem.isEmpty) listElem.clear();
+    listElem.add(elemento[idInt]);
 
     return new Card(
       //color: Colors.yellowAccent,
@@ -109,7 +115,9 @@ class _ListadoState extends State<Listado> {
                     new IconButton(
                         icon: new Icon(Icons.speaker), onPressed: null),
                     new IconButton(
-                        icon: new Icon(Icons.map), onPressed: null),
+                        icon: new Icon(Icons.map),
+                        onPressed: () => Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(listElem)))
+                    ),
                     new IconButton(
                       icon: elemento[idInt].favorito ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
                       color: elemento[idInt].favorito ? Colors.red : null,
@@ -132,7 +140,7 @@ class _ListadoState extends State<Listado> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    new Text(desc, maxLines: 1,overflow: TextOverflow.fade),
+                    //new Text(desc, maxLines: 1,overflow: TextOverflow.fade),
                   ],
                 )
             )

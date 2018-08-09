@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.31.2-alpha.2"
+  android_intent:
+    dependency: "direct dev"
+    description:
+      name: android_intent
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   args:
     dependency: transitive
     description:
@@ -95,6 +102,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
+  google_maps_flutter:
+    dependency: "direct dev"
+    description:
+      path: "packages/google_maps_flutter"
+      ref: HEAD
+      resolved-ref: e351a09c0d5521c71037ef096b7c79f01ba35ea6
+      url: "git://github.com/flutter/plugins"
+    source: git
+    version: "0.0.1"
   html:
     dependency: transitive
     description:
@@ -207,6 +223,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.1"
+  platform:
+    dependency: transitive
+    description:
+      name: platform
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.2"
   plugin:
     dependency: transitive
     description:
@@ -375,4 +398,4 @@ packages:
     version: "2.1.13"
 sdks:
   dart: ">=2.0.0-dev.52.0 <=2.0.0-dev.58.0.flutter-f981f09760"
-  flutter: ">=0.1.4 <2.0.0"
+  flutter: ">=0.3.0 <2.0.0"
