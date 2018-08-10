@@ -21,7 +21,6 @@ class Categorias extends StatelessWidget {
   BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
     int _currentIndex = 0;
 
-
     return new BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         new BottomNavigationBarItem(
@@ -29,11 +28,26 @@ class Categorias extends StatelessWidget {
         new BottomNavigationBarItem(
             icon: new Icon(Icons.favorite), title: new Text("fav")),
       ],
-      onTap: (int index) => Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(elemento))),
+      //onTap: (int index) => Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(elemento))),
+      onTap: (int _currentIndex) =>  _navTap(_currentIndex, context),
       currentIndex: _currentIndex,
 
     );
   }
+
+  void _navTap(int index, BuildContext context) {
+   // index != page ? Navigator.of(context).pushReplacementNamed( '/${page.toString()}') : null;
+
+    print(index);
+
+    switch (index){
+      case 0: Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(elemento))); break;
+      case 1: Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Listado('Favoritos')));break;
+    }
+
+
+  }
+
 
 GestureDetector getStructuredGridCell(BuildContext context, name, image) {
     Color color;

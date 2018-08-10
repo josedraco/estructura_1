@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 //import 'package:maps_demo/venue_details.dart';
 //import 'package:maps_demo/location.dart';
 import 'package:estructura_1/datos.dart';
-import 'package:estructura_1/lugares.dart';
+//import 'package:estructura_1/lugares.dart';
 import 'package:estructura_1/pantallas/detalle.dart';
 
 

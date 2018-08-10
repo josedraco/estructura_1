@@ -19,7 +19,7 @@ class _ListadoState extends State<Listado> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      //title: "Test 4",
+        title: "this.pulsado",
         home: new Scaffold(
             appBar: buildAppBar(context),
             body: buildListView(this.pulsado),
@@ -32,7 +32,10 @@ class _ListadoState extends State<Listado> {
 
     List<Elemento> _listElem = [];
 
-    _listElem = elemento.where((Elemento item) => item.categoria == pulsado).toList();
+    if (pulsado == 'Favoritos')
+      {_listElem = elemento.where((Elemento item) => item.favorito == true).toList();}
+      else {
+    _listElem = elemento.where((Elemento item) => item.categoria == pulsado).toList();}
 
     return ListView.builder(
       itemBuilder: (context, index) => buildCard(_listElem[index].name, _listElem[index].image,_listElem[index].description, _listElem[index].id, index),
