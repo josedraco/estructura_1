@@ -30,22 +30,22 @@ class _ListadoState extends State<Listado> {
 
   ListView buildListView(String pulsado) {
 
-    List<Elemento> _listElem = [];
+    List<Elemento> listElemGrid = [];
 
     if (pulsado == 'Favoritos')
-      {_listElem = elemento.where((Elemento item) => item.favorito == true).toList();}
+      {listElemGrid = elemento.where((Elemento item) => item.favorito == true).toList();}
       else {
-    _listElem = elemento.where((Elemento item) => item.categoria == pulsado).toList();}
+      listElemGrid = elemento.where((Elemento item) => item.categoria == pulsado).toList();}
 
     return ListView.builder(
-      itemBuilder: (context, index) => buildCard(_listElem[index].name, _listElem[index].image,_listElem[index].description, _listElem[index].id, index),
-      itemCount: _listElem.length,
+      itemBuilder: (context, index) => buildCard(listElemGrid[index].name, listElemGrid[index].image,listElemGrid[index].description, listElemGrid[index].id, index, listElemGrid),
+      itemCount: listElemGrid.length,
     );
   }
 
   AppBar buildAppBar(BuildContext context) {
     return new AppBar(
-      title: new Text("Aviles"),
+      //title: new Text("Aviles"),
       backgroundColor: const Color.fromRGBO(78, 234, 32, 12.0),
       leading: new IconButton(icon: new Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop()),
       actions: <Widget>[
@@ -75,15 +75,15 @@ class _ListadoState extends State<Listado> {
 
   }
 
-  Widget buildCard(String name, String imag, String desc, String id, int index){
+  Widget buildCard(String name, String imag, String desc, String id, int index, List<Elemento> listElemGrid){
 
-    List<Elemento> listElem = [];
+    List<Elemento> _listElem = [];
 
     int idInt;
     idInt = int.parse(id)-1;
 
  //   if (! listElem.isEmpty) listElem.clear();
-    listElem.add(elemento[idInt]);
+    _listElem.add(elemento[idInt]);
 
     return new Card(
       //color: Colors.yellowAccent,
@@ -128,7 +128,7 @@ class _ListadoState extends State<Listado> {
                         icon: new Icon(Icons.speaker), onPressed: null),
                     new IconButton(
                         icon: new Icon(Icons.map),
-                        onPressed: () => Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(listElem)))
+                        onPressed: () => Navigator.of(context).push(new PageRouteBuilder(pageBuilder: (_, __, ___) => new Venues(_listElem)))
                     ),
                     new IconButton(
                       icon: elemento[idInt].favorito ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
@@ -136,6 +136,7 @@ class _ListadoState extends State<Listado> {
                       onPressed: () {setState(() {
                         elemento[idInt].favorito = ! elemento[idInt].favorito;
                         toggleFavoriteElemento(elemento[idInt]);
+                        if (pulsado == 'Favoritos') {listElemGrid.removeAt(index);}
                         //print(elemento[i].favorito);
                       });
                       },
